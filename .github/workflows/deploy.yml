@@ -20,12 +20,12 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e
             
-            cd /home/ubuntu
-            cd CoDev-Studio
+            cd /home/ubuntu/CoDev-Studio
+
+            # Pull the latest code from GitHub
             git pull origin main
-            
-            fi
 
             # Set up environment variables for server
             if [ ! -f "server/.env" ] || ! grep -q "MONGO_URL=" server/.env; then
@@ -77,5 +77,3 @@ jobs:
             sudo npm run build
             sudo pm2 stop worker 
             sudo pm2 start dist/index.js --name worker
-
-      
