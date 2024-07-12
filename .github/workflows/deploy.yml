@@ -66,14 +66,14 @@ jobs:
 
             # Navigate to server directory, install dependencies, build, and start the server
             cd server
-            sudo npm install
-            sudo npm run build
-            sudo pm2 stop server 
-            sudo pm2 start dist/index.js --name server
+            npm install
+            npm run build
+            pm2 stop server 
+            pm2 start dist/index.js --name server
 
             # Navigate to worker directory, install dependencies, build, and start the worker
             cd ../worker
-            sudo npm install
-            sudo npm run build
-            sudo pm2 stop worker 
-            sudo pm2 start dist/index.js --name worker
+            npm install
+            npm run build
+            pm2 stop worker 
+            pm2 start dist/index.js --name worker
