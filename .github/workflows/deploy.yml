@@ -1,0 +1,86 @@
+name: 'Build and Deploy'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Clone the latest code from GitHub
+            cd /home/ubuntu
+            if [ -d "CoDev-Studio" ]; then
+              cd CoDev-Studio
+              git pull origin main
+            else
+              git clone https://github.com/adityaChauhan2510/CoDev-Studio.git
+              cd CoDev-Studio
+            fi
+
+            # Set up environment variables for server
+            if [ ! -f "server/.env" ] || ! grep -q "MONGO_URL=" server/.env; then
+              echo "MONGO_URL=mongodb://localhost:27017/code-editor" > server/.env
+            fi
+
+            if [ ! -f "server/.env" ] || ! grep -q "REDIS_URL=" server/.env; then
+              echo "REDIS_URL=redis://localhost:6379" >> server/.env
+            fi
+
+            # Set up environment variables for worker
+            if [ ! -f "worker/.env" ] || ! grep -q "X_RAPID_API_KEY=" worker/.env; then
+              echo "X_RAPID_API_KEY=${{ secrets.X_RAPID_API_KEY }}" > worker/.env
+            fi
+
+            if [ ! -f "worker/.env" ] || ! grep -q "REDIS_URL=" worker/.env; then
+              echo "REDIS_URL=redis://localhost:6379" >> worker/.env
+            fi
+
+            # Display .env files for verification
+            cat server/.env
+            cat worker/.env
+
+            # Ensure MongoDB and Redis containers are not running
+            if [ $(sudo docker ps -q --filter "name=mongo") ]; then
+              sudo docker stop mongo
+              sudo docker rm mongo
+            fi
+
+            if [ $(sudo docker ps -q --filter "name=redis") ]; then
+              sudo docker stop redis
+              sudo docker rm redis
+            fi
+
+            # Start MongoDB and Redis using Docker
+            sudo docker run -d --name mongo -p 27017:27017 -v ~/mongo-data:/data/db mongo
+            sudo docker run -d --name redis -p 6379:6379 redis
+
+            # Navigate to server directory, install dependencies, build, and start the server
+            cd server
+            sudo npm install
+            sudo npm run build
+            sudo pm2 stop server 
+            sudo pm2 start dist/index.js --name server
+
+            # Navigate to worker directory, install dependencies, build, and start the worker
+            cd ../worker
+            sudo npm install
+            sudo npm run build
+            sudo pm2 stop worker 
+            sudo pm2 start dist/index.js --name worker
+
+      - name: Verify Deployment
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "curl http://localhost:8080"

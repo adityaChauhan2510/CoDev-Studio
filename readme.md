@@ -5,8 +5,7 @@
 
 # 🎉 CoDev Studio
 
-Welcome to CoDev Studio! This application enables multiple users to collaboratively write and edit code in real-time using WebSockets. Users can sign up or log in with unique usernames, create or join rooms via unique room IDs, and interact with others through real-time chat and code editing. Each room supports multiple users who can collaboratively write code, choose programming languages, submit code for execution, and view results together. The backend uses the Judge0 API for code execution and Redis for task queuing and pub/sub functionality. CoDev Studio is perfect for collaborative coding sessions, educational environments, and coding competitions.
-
+Welcome to CoDev Studio! This application enables multiple users to collaboratively write and edit code in real-time using WebSockets. Users can sign up or log in with unique usernames, create or join rooms via unique room IDs, and interact with others through real-time chat and code editing. Each room supports multiple users who can collaboratively write code, choose programming languages, submit code for execution, and view results together. The backend uses the Judge0 API for code execution and Redis for task queuing and pub/sub functionality. 
 
 ## 🌟 Features
 - **🔒 User Authentication**: Sign up and log in with unique usernames.
