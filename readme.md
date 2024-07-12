@@ -26,8 +26,8 @@ Welcome to CoDev Studio! This application enables multiple users to collaborativ
 ### Manual Setup
 1. **Clone the repository**:
     ```sh
-    git clone https://github.com/yourusername/collaborative-code-editor.git
-    cd collaborative-code-editor
+    git clone https://github.com/adityaChauhan2510/CoDev-Studio.git
+    cd CoDev-Studio
     ```
 
 2. **Install dependencies for each service**:
