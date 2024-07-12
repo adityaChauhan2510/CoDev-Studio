@@ -20,14 +20,11 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # Clone the latest code from GitHub
+            
             cd /home/ubuntu
-            if [ -d "CoDev-Studio" ]; then
-              cd CoDev-Studio
-              git pull origin main
-            else
-              git clone https://github.com/adityaChauhan2510/CoDev-Studio.git
-              cd CoDev-Studio
+            cd CoDev-Studio
+            git pull origin main
+            
             fi
 
             # Set up environment variables for server
