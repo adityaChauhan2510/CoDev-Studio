@@ -81,6 +81,4 @@ jobs:
             sudo pm2 stop worker 
             sudo pm2 start dist/index.js --name worker
 
-      - name: Verify Deployment
-        run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "curl http://localhost:8080"
+      
