@@ -61,6 +61,9 @@ jobs:
             cat server/.env
             cat worker/.env
 
+            # Navigate to server directory, install dependencies, build, and start the server
+            cd server
+            npm install
 
             # Navigate to worker directory, install dependencies, build, and start the worker
             cd worker
