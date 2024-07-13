@@ -81,6 +81,11 @@ wss.on('connection', function connection(ws) {
   ws.send(JSON.stringify({Title : "Greet" , msg:'Hello! Message From Server!!'}));
 });
 
+
+app.get("/", async(req:Request, res:Response)=> {
+  res.send("Nice working");
+})
+
 app.post("/signin",async(req:Request,res:Response)=>{
   await ConnectDB();
   const { username, password } = req.body;
