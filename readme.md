@@ -14,11 +14,13 @@ Welcome to CoDev Studio! This application enables multiple users to collaborativ
 - **🌐 Multi-language support**: Choose the programming language for your code, supports 4 languages (python,javascript,java,c++)
 - **🚀 Code Submission and Execution**: Submit code and view results using the Judge0 API.
 - **🔄 Real-time Updates**: Automatic updates for code changes, language selection, user activity, and chat messages.
+- **🪈 CI/CD pipeline** : CI/CD pipeline to deploy to AWS EC2 instance.
 
 ## 🛠️ Tech Stack
 - **Frontend**: Vite, React, TypeScript
 - **Backend**: Express, HTTP for WebSockets, MongoDB
 - **Queue and Pub/Sub System**: Redis
+- **AWS** : AWS Elastic Compute Cloud(EC2)
 
 ## 📦 Setup Guide
 
