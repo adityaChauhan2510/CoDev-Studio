@@ -15,7 +15,8 @@ app.use(cors())
 app.use(express.json());
 
 
-//connect to redis after launching it from docker
+/*
+connect to redis after launching it from docker-locally
 
 const redis_url = process.env.REDIS_URL === "No-Url-provided" ? "" : process.env.REDIS_URL
 
@@ -26,10 +27,41 @@ const redisClient = createClient({
 const redisClientSubscribing = createClient({
   url: redis_url
 });
+*/
 
 
-redisClient.connect().catch(err=>{console.log(err)})
-redisClientSubscribing.connect().catch(err=>{console.log(err)})
+
+
+const redisClient = createClient({
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOSTNAME,
+        port: parseInt(process.env.REDIS_PORT!)
+    }
+});
+
+const redisClientSubscribing = createClient({
+  password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOSTNAME,
+        port: parseInt(process.env.REDIS_PORT!)
+    }
+});
+
+
+(async () => {
+  while(1){
+    try {
+      await redisClient.connect();
+      await redisClientSubscribing.connect();
+      console.log('Connected to Redis');
+      return;
+    } catch (err) {
+      console.error('Error connecting to Redis', err);
+    }
+  }
+  
+})();
 
 type room = {
   name: string,

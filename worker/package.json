@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^20.12.12",
+    "@upstash/redis": "^1.32.0",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "node-fetch": "^3.3.2",

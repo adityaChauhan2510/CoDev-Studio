@@ -6,8 +6,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const redisClient = createClient({
-    url: process.env.REDIS_URL
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOSTNAME,
+        port: parseInt(process.env.REDIS_PORT!)
+    }
 });
+
 
 
 async function processSubmission(submission: string) {
@@ -100,6 +105,8 @@ async function startWorker() {
         }
     } catch (err) {
         console.log(err);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await startWorker();
     }
 }
 
