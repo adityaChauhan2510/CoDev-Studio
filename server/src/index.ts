@@ -8,8 +8,8 @@ import bcrypt from 'bcrypt'
 import User from "./database/models/User"
 
 const app = express();
-const httpServer = app.listen(8080,()=>{
-  console.log("Server listening on port 8080")
+const httpServer = app.listen(`${process.env.PORT}`,()=>{
+  console.log(`Server listening on port ${process.env.PORT}`)
 })
 app.use(cors())
 app.use(express.json());
